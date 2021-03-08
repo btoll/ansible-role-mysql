@@ -1,3 +1,10 @@
+CREATE USER '{{ DB_USER }}'@'localhost' IDENTIFIED BY '{{ DB_PASSWORD }}';
+GRANT ALL PRIVILEGES ON *.* TO '{{ DB_USER }}'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE DATABASE italy;
+USE italy;
+
 -- MySQL dump 10.11
 --
 -- Host: localhost    Database: benjamin_italy

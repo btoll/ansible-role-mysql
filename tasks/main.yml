@@ -12,38 +12,18 @@
     state: started
     enabled: yes
 
-- name: Remove anonymous user account
-  mysql_user:
-    name: ""
-    host: localhost
-    state: absent
-
-- name: Remove all anonymous user accounts
-  mysql_user:
-    name: ""
-    host_all: yes
-    state: absent
-
-- name: Create a test user
-  mysql_user:
-    name: test
-    password: test
-    priv: '*.*:ALL'
-    state: present
-
-- name: Create a new database
-  mysql_db:
-    name: italy
-    state: present
-
 - name: Move mysql dump to managed host
-  copy:
-    src: italy.sql
-    dest: /home/vagrant
+  template:
+    src: italy.sql.j2
+    dest: /home/vagrant/italy.sql
+
+- name: Move database credentials to managed host
+  template:
+    src: italy.php.j2
+    dest: /home/vagrant/italy.php
 
 - name: Restore database
-  mysql_db:
-    name: italy
-    state: import
-    target: /home/vagrant/italy.sql
+  shell: |
+    mysql -u root mysql < /home/vagrant/italy.sql
+  become: true
 
