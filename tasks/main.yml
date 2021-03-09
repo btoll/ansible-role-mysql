@@ -12,18 +12,3 @@
     state: started
     enabled: yes
 
-- name: Move mysql dump to managed host
-  template:
-    src: italy.sql.j2
-    dest: /home/vagrant/italy.sql
-
-- name: Move database credentials to managed host
-  template:
-    src: italy.php.j2
-    dest: /home/vagrant/italy.php
-
-- name: Restore database
-  shell: |
-    mysql -u root mysql < /home/vagrant/italy.sql
-  become: true
-
